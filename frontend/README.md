@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# POC-64: Carbon Credit Registry Explorer
 
-## Getting Started
+A high-performance real-time data terminal mapping voluntary carbon registry asset supply ledgers (Verra and Gold Standard) across a global vector viewport plane. Built for the Real Rails Intelligence Library.
 
-First, run the development server:
+## 🛠️ Technical Stack
+- **Frontend**: Next.js 14+ (App Router), TypeScript, Tailwind CSS (v4)
+- **Mapping Engine**: MapLibre GL JS (CartoDB Dark Matter Vector Tiles)
+- **Backend API**: Python FastAPI, Uvicorn
+- **Iconography**: Lucide React
 
+## 📐 Architecture & Layout Protocol
+Following the structural DNA constraints of the Real Rails framework, this project implements:
+1. **Obsidian Interface**: Complete visual alignment utilizing an Obsidian Black background and Deep Navy Grey data surfaces.
+2. **2-Column Split Stage**:
+   - **Main Stage (70% Width)**: Interactive full-viewport geographic coordinate projection mapping live data nodes.
+   - **Intelligence Sidebar (30% Width)**: Houses high-level metrics, physical infrastructure context, dynamic filtering states, and asset ledger data stream rows.
+
+## 🚀 Quick Start & Installation
+
+### 1. Run the Backend API
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+cd backend
+python -m venv venv
+# On Windows PowerShell:
+.\venv\Scripts\Activate.ps1
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+pip install -r requirements.txt
+uvicorn app.main:app --reload
