@@ -11,6 +11,8 @@ interface Project {
   country: string;
   latitude: number;
   longitude: number;
+  issuances: number;
+  retirements: number;
 }
 
 interface MapComponentProps {
@@ -25,19 +27,18 @@ export default function MapComponent({ projects }: MapComponentProps) {
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // Initialize MapLibre GL using a stable, high-performance dark vector style
+    // Initialize map engine with explicit viewport dimension checks
     mapRef.current = new maplibregl.Map({
       container: mapContainerRef.current,
       style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-      center: [20, 15], // Strategic global coordinates to center the viewer layout
-      zoom: 1.6,
-      fadeDuration: 0, // Prevents layout flashing on updates
+      center: [10, 10], // Centered globally to view all new nodes
+      zoom: 1.8,       // Pulled back slightly for full global perspective
+      fadeDuration: 0,
     });
 
-    // Add standard navigation anchor elements (+/- zoom buttons)
     mapRef.current.addControl(new maplibregl.NavigationControl(), "top-right");
 
-    // Force an immediate width/height layout calculation on canvas load
+    // Force map canvas container to calculate 100% bounds on structural load
     mapRef.current.on("load", () => {
       mapRef.current?.resize();
     });
@@ -47,43 +48,43 @@ export default function MapComponent({ projects }: MapComponentProps) {
     };
   }, []);
 
-  // Update data markers instantly whenever the filtered project array updates
+  // Sync active markers whenever incoming project properties update
   useEffect(() => {
     if (!mapRef.current) return;
 
-    // Clear previous operational data nodes
+    // Clear existing marker nodes
     markersRef.current.forEach((marker) => marker.remove());
     markersRef.current = [];
 
-    // Map out the coordinates from the FastAPI data layer stream
+    // Inject fresh nodes into the 100% viewport view
     projects.forEach((project) => {
-      if (!project.latitude || !project.longitude) return;
-
-      // Real Rails cyan/indigo/amber data pulse color mappings
-      const markerColor = project.registry === "Verra" ? "#818cf8" : "#fbbf24";
-
-      // Create a clean data dot matching the high-density asset design
       const el = document.createElement("div");
-      el.className = "w-3 h-3 rounded-full cursor-pointer transition-transform hover:scale-125 relative";
-      el.style.backgroundColor = markerColor;
-      el.style.boxShadow = `0 0 10px ${markerColor}`;
+      el.className = "maplibregl-marker";
+      el.style.width = "14px";
+      el.style.height = "14px";
+      el.style.borderRadius = "50%";
+      el.style.backgroundColor = project.registry === "Verra" ? "#818cf8" : "#fbbf24";
+      el.style.cursor = "pointer";
 
-      // Build a minimal monospace tooltip popup box
-      const popupHtml = `
-        <div style="background-color: #0b1117; color: #f4f4f5; font-family: monospace; font-size: 11px; padding: 10px; border: 1px solid #1f2937; border-radius: 4px; max-width: 220px;">
-          <div style="font-weight: bold; color: ${markerColor}; margin-bottom: 3px;">[${project.id}]</div>
-          <div style="font-weight: 600; margin-bottom: 4px; line-height: 1.2;">${project.name}</div>
-          <div style="color: #9ca3af; margin-top: 4px;">Region: ${project.country}</div>
-          <div style="color: #6b7280; font-size: 10px; margin-top: 2px;">Status: ${project.status}</div>
+      const popup = new maplibregl.Popup({ offset: 25 }).setHTML(`
+        <div style="
+          background-color: #0b1117 !important; 
+          color: #f4f4f5 !important; 
+          font-family: monospace; 
+          font-size: 11px; 
+          padding: 4px;
+          border-radius: 4px;
+        ">
+          <strong style="color: ${project.registry === "Verra" ? "#818cf8" : "#fbbf24"}; font-size: 12px;">
+            [${project.id}]
+          </strong><br/>
+          <div style="font-size: 13px; font-weight: bold; margin-top: 4px; margin-bottom: 4px; color: #ffffff !important;">
+            ${project.name}
+          </div>
+          <span style="color: #a1a1aa !important;">Country: ${project.country}</span><br/>
+          <span style="color: #34d399 !important; font-weight: bold;">Issuances: ${(project.issuances / 1000000).toFixed(1)}M t</span>
         </div>
-      `;
-
-      const popup = new maplibregl.Popup({
-        offset: 10,
-        closeButton: false,
-      }).setHTML(popupHtml);
-
-      // Lock down marker to its geographic projection parameters
+      `);
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([project.longitude, project.latitude])
         .setPopup(popup)
@@ -97,7 +98,7 @@ export default function MapComponent({ projects }: MapComponentProps) {
     <div 
       ref={mapContainerRef} 
       className="absolute inset-0 w-full h-full"
-      style={{ height: "100%", width: "100%" }}
+      style={{ minHeight: "100%", minWidth: "100%" }}
     />
   );
 }

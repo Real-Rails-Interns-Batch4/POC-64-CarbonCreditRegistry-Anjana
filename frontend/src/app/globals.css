@@ -35,3 +35,17 @@ body {
 .maplibregl-ctrl-attrib {
   display: none !important;
 }
+.maplibregl-popup-content {
+  background: #0b1117 !important; /* Forces the entire box frame dark */
+  background-color: #0b1117 !important; 
+  border: 1px solid #1f2937 !important; 
+  border-radius: 6px !important;
+  padding: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(56, 189, 248, 0.1) !important; 
+}
+
+/* Turns the little white close "x" button text silver/white */
+.maplibregl-popup-close-button {
+  color: #a1a1aa !important;
+  padding: 4px 8px !important;
+}
