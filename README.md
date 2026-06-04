@@ -26,3 +26,12 @@ python -m venv venv
 
 pip install -r requirements.txt
 uvicorn app.main:app --reload
+```
+### 1. Run the Frontend UI Terminal
+Open a separate terminal window:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open your browser to http://localhost:3000 to interact with the system terminal.
