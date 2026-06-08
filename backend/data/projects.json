@@ -1,0 +1,93 @@
+[
+  {
+    "id": "VCS-934",
+    "name": "Rimba Raya Biodiversity Reserve Project",
+    "registry": "Verra",
+    "methodology": "REDD+ Avoided Deforestation",
+    "status": "Registered",
+    "country": "Indonesia",
+    "latitude": -2.712,
+    "longitude": 112.441,
+    "issuances": 3500000,
+    "retirements": 1200000,
+    "controller": "Infinite Earth Holdings"
+  },
+  {
+    "id": "GS-4152",
+    "name": "Safe Water Access Clean Cookstoves",
+    "registry": "Gold Standard",
+    "methodology": "Energy Efficiency - Domestic",
+    "status": "Certified",
+    "country": "Rwanda",
+    "latitude": -1.940,
+    "longitude": 29.873,
+    "issuances": 850000,
+    "retirements": 430000,
+    "controller": "Vesta Global Carbon"
+  },
+  {
+    "id": "VCS-1221",
+    "name": "Amazon Basin Avoided Deforestation",
+    "registry": "Verra",
+    "methodology": "REDD+ Avoided Deforestation",
+    "status": "Registered",
+    "country": "Brazil",
+    "latitude": -3.465,
+    "longitude": -62.215,
+    "issuances": 2100000,
+    "retirements": 950000,
+    "controller": "Equatorial Carbon Corp"
+  },
+  {
+    "id": "GS-2981",
+    "name": "Wind Power Generation Grid Asset",
+    "registry": "Gold Standard",
+    "methodology": "Renewable Energy - Wind",
+    "status": "Certified",
+    "country": "India",
+    "latitude": 20.593,
+    "longitude": 78.962,
+    "issuances": 1300000,
+    "retirements": 610000,
+    "controller": "SustainCert Ltd"
+  },
+  {
+    "id": "VCS-2409",
+    "name": "Borehole Clean Water Infrastructure",
+    "registry": "Verra",
+    "methodology": "Energy Efficiency - Domestic",
+    "status": "Registered",
+    "country": "Malawi",
+    "latitude": -13.254,
+    "longitude": 34.301,
+    "issuances": 640000,
+    "retirements": 210000,
+    "controller": "Malawi Hydro Clean"
+  },
+  {
+    "id": "GS-884",
+    "name": "Methane Capture & Thermal Energy",
+    "registry": "Gold Standard",
+    "methodology": "Methane Capture",
+    "status": "Certified",
+    "country": "Mexico",
+    "latitude": 23.634,
+    "longitude": -102.552,
+    "issuances": 920000,
+    "retirements": 400000,
+    "controller": "Contra Methane Group"
+  },
+  {
+    "id": "VCS-712",
+    "name": "Improved Cookstoves Distribution Framework",
+    "registry": "Verra",
+    "methodology": "Energy Efficiency - Domestic",
+    "status": "Registered",
+    "country": "Kenya",
+    "latitude": -0.023,
+    "longitude": 37.906,
+    "issuances": 1150000,
+    "retirements": 530000,
+    "controller": "Africa EcoStoves Ltd"
+  }
+]
