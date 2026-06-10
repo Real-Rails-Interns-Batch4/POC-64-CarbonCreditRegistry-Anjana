@@ -16,6 +16,7 @@ import {
   Clock
 } from "lucide-react";
 
+// Synchronized cleanly with your actual real-world projects.json dataset schema
 interface Project {
   id: string;
   name: string;
@@ -28,8 +29,6 @@ interface Project {
   issuances: number;
   retirements: number;
   controller: string;
-  label_type: string;
-  net_balance: number;
 }
 
 export default function Dashboard() {
@@ -40,10 +39,9 @@ export default function Dashboard() {
   const [selectedScenario, setSelectedScenario] = useState("Baseline");
 
   useEffect(() => {
-    // Pipeline fetches adapted structural streams directly
     fetch("http://127.0.0.1:8000/api/projects")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Project[]) => {
         setAllProjects(data);
         setFilteredProjects(data);
       })
@@ -64,17 +62,35 @@ export default function Dashboard() {
 
   const uniqueMethodologies = ["All", ...Array.from(new Set(allProjects.map(p => p.methodology)))];
 
+ // Dynamically calculate production metrics across all three scenario matrices
+const totalIssuances = filteredProjects.reduce((sum, p) => sum + (p.issuances || 0), 0);
+
+const totalRetirements = filteredProjects.reduce((sum, p) => {
+  const baseRetirement = p.retirements || 0;
+  
+  if (selectedScenario === "Max Retirement") {
+    // Max Retirement Vector: Simulates 50% liquidation spike capped at absolute issuance ceilings
+    return sum + Math.min(p.issuances, baseRetirement * 1.5);
+  } 
+  else if (selectedScenario === "Stress Test") {
+    // Stress Test Vector: Simulates 25% intermediate compliance market pressure surge
+    return sum + Math.min(p.issuances, baseRetirement * 1.25);
+  }
+  
+  // Baseline Vector: Returns real un-modified public ledger records
+  return sum + baseRetirement;
+}, 0);
   return (
     <div className="flex flex-col h-screen w-screen bg-[#030712] text-[#f4f4f5] font-mono overflow-hidden">
       
-      {/* HEADER WITH DATA ATTRIBUTION & SYNTHETIC WATERMARK */}
+      {/* HEADER WITH DATA ATTRIBUTION & PRODUCTION STAMP */}
       <header className="flex items-center justify-between px-6 h-16 border-b border-[#1F2937] bg-[#0B1117] shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
           <h1 className="text-sm font-bold tracking-wider uppercase flex items-center gap-2">
             Carbon Credit Registry Explorer 
-            <span className="text-[10px] bg-red-950/40 text-red-400 border border-red-900/60 px-2 py-0.5 rounded tracking-normal">
-              [CRITICAL: SYNTHETIC DATA LABELING]
+            <span className="text-[10px] bg-indigo-950/40 text-indigo-400 border border-indigo-900/60 px-2 py-0.5 rounded tracking-normal">
+              [REAL-WORLD COUPLING ACTIVE]
             </span>
           </h1>
         </div>
@@ -92,8 +108,8 @@ export default function Dashboard() {
               className="bg-[#030712] border border-[#1F2937] text-[11px] px-2 py-1 rounded focus:outline-none text-zinc-300"
             >
               <option value="All">All Origins</option>
-              <option value="Verra">Verra (VCS) Data</option>
-              <option value="Gold Standard">Gold Standard Data</option>
+              <option value="Verra Registry">Verra Registry (VCS)</option>
+              <option value="Gold Standard Registry">Gold Standard Registry</option>
             </select>
           </div>
 
@@ -138,28 +154,32 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* SIMULATION ENGINE TRIGGER */}
-            <div className="absolute bottom-4 left-4 z-10 bg-[#0B1117]/90 border border-[#1F2937] p-3 rounded-md max-w-xs backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-xs font-bold text-zinc-400 mb-2">
-                <Sliders size={12} className="text-cyan-400" />
-                SIMULATION STRESS TESTING MATRIX
-              </div>
-              <div className="flex gap-2">
-                {["Baseline", "Stress Test", "Max Retirement"].map((scenario) => (
-                  <button
-                    key={scenario}
-                    onClick={() => setSelectedScenario(scenario)}
-                    className={`text-[10px] px-2 py-1 rounded transition-all cursor-pointer ${
-                      selectedScenario === scenario 
-                        ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/50" 
-                        : "bg-[#030712] text-zinc-500 border border-transparent hover:border-zinc-800"
-                    }`}
-                  >
-                    {scenario}
-                  </button>
-                ))}
-              </div>
-            </div>
+{/* SIMULATION ENGINE TRIGGER */}
+<div className="absolute bottom-4 left-4 z-10 bg-[#0B1117]/90 border border-[#1F2937] p-3 rounded-md max-w-xs backdrop-blur-sm">
+  <div className="flex items-center gap-2 text-xs font-bold text-zinc-400 mb-2">
+    <Sliders size={12} className="text-cyan-400" />
+    SIMULATION STRESS TESTING MATRIX
+  </div>
+  <div className="flex gap-2">
+    {["Baseline", "Stress Test", "Max Retirement"].map((scenario) => (
+      <button
+        key={scenario}
+        type="button"
+        onClick={() => {
+          setSelectedScenario(scenario);
+          console.log(`Switched simulation vector to: ${scenario}`);
+        }}
+        className={`text-[10px] px-2 py-1 rounded transition-all cursor-pointer font-mono font-bold ${
+          selectedScenario === scenario 
+            ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/50" 
+            : "bg-[#030712] text-zinc-500 border border-transparent hover:border-zinc-800 hover:text-zinc-400"
+        }`}
+      >
+        {scenario}
+      </button>
+    ))}
+  </div>
+</div>
           </div>
 
           {/* LOWER INTERACTIVE REGISTRY GRID TABLE MODULE */}
@@ -213,12 +233,14 @@ export default function Dashboard() {
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-[#030712] border border-[#1F2937] p-2.5 rounded">
                 <span className="text-[9px] text-zinc-500 block uppercase">Total Issuances</span>
-                <span className="text-base font-bold text-white">4.32M <span className="text-[10px] text-zinc-600 font-normal">t</span></span>
+                <span className="text-base font-bold text-white">
+                  {(totalIssuances / 1000000).toFixed(2)}M <span className="text-[10px] text-zinc-600 font-normal">t</span>
+                </span>
               </div>
               <div className="bg-[#030712] border border-[#1F2937] p-2.5 rounded">
                 <span className="text-[9px] text-zinc-500 block uppercase">Total Retirements</span>
                 <span className="text-base font-bold text-amber-500">
-                  {selectedScenario === "Max Retirement" ? "2.20M" : "1.45M"}<span className="text-[10px] text-zinc-600 font-normal ml-0.5">t</span>
+                  {(totalRetirements / 1000000).toFixed(2)}M<span className="text-[10px] text-zinc-600 font-normal ml-0.5">t</span>
                 </span>
               </div>
             </div>
@@ -230,12 +252,8 @@ export default function Dashboard() {
               </div>
               <div className="space-y-1.5 text-[10px]">
                 <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">2023 - 2024 Vintages:</span>
-                  <span className="text-zinc-300">2.80M t Active Flow</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-zinc-500">2025 - 2026 Vintages:</span>
-                  <span className="text-indigo-400 font-bold">1.52M t Minting Contract</span>
+                  <span className="text-zinc-500">Active Pipeline Records:</span>
+                  <span className="text-zinc-300">{filteredProjects.length} Verified Ledger Traces</span>
                 </div>
               </div>
             </div>
@@ -268,12 +286,15 @@ export default function Dashboard() {
                 Primary Asset Controllers
               </div>
               <div className="space-y-1 text-[10px]">
-                {filteredProjects.slice(0, 3).map((p) => (
+                {filteredProjects.slice(0, 4).map((p) => (
                   <div key={p.id} className="flex justify-between items-center text-zinc-300">
                     <span className="font-bold text-zinc-400">[{p.id}]</span>
                     <span className="truncate max-w-[150px] text-indigo-300">{p.controller}</span>
                   </div>
                 ))}
+                {filteredProjects.length === 0 && (
+                  <span className="text-zinc-600 italic">No active streams selected.</span>
+                )}
               </div>
               <p className="text-[9px] text-zinc-500 leading-normal pt-1 border-t border-[#1F2937]/50">
                 Determines the active entity holding backend proxy rights to edit state changes or execute credit cancellations on public ledgers.

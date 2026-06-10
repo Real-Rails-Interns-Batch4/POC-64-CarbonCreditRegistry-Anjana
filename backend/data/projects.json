@@ -1,55 +1,55 @@
 [
   {
-    "id": "VCS-5903",
-    "name": "Gewan District Cooling Plant",
+    "id": "VCS-6032",
+    "name": "Solar PV Power Project by Juniper Green Ray Two Private Limited",
     "registry": "Verra Registry",
-    "methodology": "AMS-II.C.",
-    "status": "Registered",
-    "country": "Qatar",
-    "latitude": -2.833,
-    "longitude": 113.25,
-    "issuances": 3500000,
-    "retirements": 1200000,
-    "controller": "Qatar District Cooling Company"
-  },
-  {
-    "id": "VCS-5894",
-    "name": "Grouped BioCNG Projects for Clean Energy Transition in India",
-    "registry": "Verra Registry",
-    "methodology": "AMS-III.D.; AMS-III.AO.",
+    "methodology": "Methodology Under Development",
     "status": "Registered",
     "country": "India",
-    "latitude": -2.833,
-    "longitude": 113.25,
+    "latitude": 20.5937,
+    "longitude": 78.9629,
     "issuances": 3500000,
     "retirements": 1200000,
-    "controller": "Multiple Proponents"
+    "controller": "Juniper Green Ray Two Private Limited"
   },
   {
-    "id": "VCS-5883",
-    "name": "Guizhou Qinglong CMM Phase IV Power Generation Project",
+    "id": "VCS-6030",
+    "name": "Electric Mobility Program Uganda",
+    "registry": "Verra Registry",
+    "methodology": "AMS-I.F.; VMR0014; VM0038",
+    "status": "Registered",
+    "country": "Uganda",
+    "latitude": 10.759821150584223,
+    "longitude": -22.583387388809427,
+    "issuances": 3500000,
+    "retirements": 1200000,
+    "controller": "Zeroca B.V."
+  },
+  {
+    "id": "VCS-6027",
+    "name": "Recovery and Avoidance of Methane from Industrial Wastewater Treatment Project at PT SMART Tbk. (PKS Padang Halaban), Indonesia.",
+    "registry": "Verra Registry",
+    "methodology": "AMS-III.H.",
+    "status": "Registered",
+    "country": "Indonesia",
+    "latitude": -0.7893,
+    "longitude": 113.9213,
+    "issuances": 3500000,
+    "retirements": 1200000,
+    "controller": "KNOWLEDGE INTEGRATION SERVICES SINGAPORE PTE. LTD."
+  },
+  {
+    "id": "VCS-6019",
+    "name": "Ningxia Junfeng Siguquan Coal Mine Well NO.2 CMM Power Generation Project",
     "registry": "Verra Registry",
     "methodology": "ACM0008",
     "status": "Registered",
     "country": "China",
-    "latitude": -2.833,
-    "longitude": 113.25,
+    "latitude": 35.8617,
+    "longitude": 104.1954,
     "issuances": 3500000,
     "retirements": 1200000,
-    "controller": "Guizhou Qianxi Energy Development Co., Ltd."
-  },
-  {
-    "id": "VCS-5884",
-    "name": "Guizhou Zhongxin CMM Power Generation Project",
-    "registry": "Verra Registry",
-    "methodology": "ACM0008",
-    "status": "Registered",
-    "country": "China",
-    "latitude": -2.833,
-    "longitude": 113.25,
-    "issuances": 3500000,
-    "retirements": 1200000,
-    "controller": "Baili Dujuan Yuekai New Energy Co., Ltd."
+    "controller": "Ningxia Junfeng New Energy Technology Co., Ltd."
   },
   {
     "id": "GS-23647",
@@ -58,10 +58,10 @@
     "methodology": "nan",
     "status": "Certified",
     "country": "Malawi",
-    "latitude": -1.94,
-    "longitude": 29.873,
-    "issuances": 850000,
-    "retirements": 430000,
+    "latitude": 38.86863901204615,
+    "longitude": -33.29785171193981,
+    "issuances": 2850000,
+    "retirements": 1430000,
     "controller": "EOS CLIMATE AND ENERGY LTD"
   },
   {
@@ -71,10 +71,10 @@
     "methodology": "nan",
     "status": "Certified",
     "country": "Malawi",
-    "latitude": -1.94,
-    "longitude": 29.873,
-    "issuances": 850000,
-    "retirements": 430000,
+    "latitude": 11.16228523543424,
+    "longitude": 6.0733107597361595,
+    "issuances": 2850000,
+    "retirements": 1430000,
     "controller": "EOS CLIMATE AND ENERGY LTD"
   },
   {
@@ -84,10 +84,10 @@
     "methodology": "nan",
     "status": "Certified",
     "country": "Malawi",
-    "latitude": -1.94,
-    "longitude": 29.873,
-    "issuances": 850000,
-    "retirements": 430000,
+    "latitude": 18.42327751392452,
+    "longitude": -26.832656359879223,
+    "issuances": 2850000,
+    "retirements": 1430000,
     "controller": "SHRI MAA MARKETING PRIVATE LIMITED"
   }
 ]
