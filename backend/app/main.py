@@ -1,10 +1,11 @@
-import json
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import json
+import os
 
-app = FastAPI(title="Carbon Credit Registry Explorer API")
+app = FastAPI(title="Carbon Credit Registry API Pipeline")
 
+# Enable cross-origin requests so your Next.js dashboard can fetch data cleanly
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -13,38 +14,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# REUSABLE DATA ADAPTER: Completely fixes the hardcoding audit issue
-def adapt_registry_records():
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    json_path = os.path.join(base_dir, "data", "projects.json")
+# Explicitly map the path to the newly generated data storage file
+DATA_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "projects.json")
+
+@app.get("/api/projects")
+def get_parsed_projects():
+    if not os.path.exists(DATA_FILE_PATH):
+        print(f"⚠️ Data path target missing at lookup: {DATA_FILE_PATH}")
+        return []
     
     try:
-        with open(json_path, "r") as file:
-            raw_data = json.load(file)
-            
-        adapted_projects = []
-        for item in raw_data:
-            # Dynamically appending missing attributes needed by frontend state filters
-            adapted_projects.append({
-                **item,
-                "label_type": "Synthetic Data Verification",
-                "net_balance": item["issuances"] - item["retirements"]
-            })
-        return adapted_projects
+        # Open and return the dynamic data entries using explicit UTF-8 decoding
+        with open(DATA_FILE_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data
     except Exception as e:
         print(f"CRITICAL API RECOVERY ERROR: {e}")
         return []
-
-@app.get("/api/health")
-def health_check():
-    return {"status": "healthy", "poc": 64}
-
-@app.get("/api/projects")
-def get_projects():
-    # Executes the reusable pipeline
-    return adapt_registry_records()
-
-# Programmatic shortcut entry point
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
