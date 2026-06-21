@@ -39,7 +39,10 @@ export default function Dashboard() {
   const [selectedScenario, setSelectedScenario] = useState("Baseline");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/projects")
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000";
+    const apiUrl = apiBase.endsWith("/api") ? `${apiBase}/projects` : `${apiBase}/api/projects`;
+
+    fetch(apiUrl)
       .then((res) => res.json())
       .then((data: Project[]) => {
         setAllProjects(data);
@@ -47,6 +50,43 @@ export default function Dashboard() {
       })
       .catch((err) => console.error("Pipeline failure connection error:", err));
   }, []);
+
+  const handleDownloadCSV = () => {
+    if (filteredProjects.length === 0) return;
+    
+    // Header Row matching our data interface
+    const headers = ["id", "name", "registry", "methodology", "status", "country", "latitude", "longitude", "issuances", "retirements", "controller"];
+    
+    // Transform rows correctly, escaping strings with commas or quotes
+    const csvRows = [
+      headers.join(","),
+      ...filteredProjects.map((p) => {
+        return headers.map((header) => {
+          const value = p[header as keyof Project];
+          if (value === undefined || value === null) {
+            return '""';
+          }
+          const stringValue = String(value);
+          if (stringValue.includes('"') || stringValue.includes(",") || stringValue.includes("\n") || stringValue.includes("\r")) {
+            return `"${stringValue.replace(/"/g, '""')}"`;
+          }
+          return stringValue;
+        }).join(",");
+      })
+    ];
+    
+    const csvContent = csvRows.join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `carbon_registry_projects.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   // Multi-tier structural filter adapter logic
   const applyFilters = (registry: string, methodology: string) => {
@@ -186,7 +226,17 @@ const totalRetirements = filteredProjects.reduce((sum, p) => {
           <div className="h-48 border-t border-[#1F2937] bg-[#0B1117] p-4 flex flex-col overflow-hidden">
             <div className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest mb-2 flex items-center justify-between">
               <span>Active Registry Table Ledger</span>
-              <span className="text-zinc-600 font-normal">Showing {filteredProjects.length} matching data traces</span>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownloadCSV}
+                  className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] px-2.5 py-1 rounded cursor-pointer transition-all border border-indigo-500 font-mono font-bold uppercase tracking-wider"
+                >
+                  <Download size={10} />
+                  Download Sample Data
+                </button>
+                <span className="text-zinc-600 font-normal">Showing {filteredProjects.length} matching data traces</span>
+              </div>
             </div>
             <div className="flex-1 overflow-auto border border-[#1F2937] rounded bg-[#030712]">
               <table className="w-full text-left text-[11px] border-collapse">
