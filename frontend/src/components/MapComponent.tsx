@@ -7,19 +7,22 @@ interface Project {
   id: string;
   name: string;
   registry: string;
+  methodology: string;
   status: string;
   country: string;
   latitude: number;
   longitude: number;
   issuances: number;
   retirements: number;
+  controller: string;
 }
 
 interface MapComponentProps {
   projects: Project[];
+  onProjectSelect?: (project: Project) => void;
 }
 
-export default function MapComponent({ projects }: MapComponentProps) {
+export default function MapComponent({ projects, onProjectSelect }: MapComponentProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
@@ -73,19 +76,26 @@ export default function MapComponent({ projects }: MapComponentProps) {
       el.style.border = "2px solid #ffffff"; // Adds a crisp white border around the dot
       
       const isVerra = project.registry === "Verra Registry";
-      el.style.backgroundColor = isVerra ? "#818cf8" : "#fbbf24";
+      el.style.backgroundColor = isVerra ? "#10b981" : "#eaff00";
       el.style.cursor = "pointer";
+
+      // Add click event listener to notify the parent container
+      el.addEventListener("click", () => {
+        if (onProjectSelect) {
+          onProjectSelect(project);
+        }
+      });
 
       const popup = new maplibregl.Popup({ offset: 25 }).setHTML(`
         <div style="
-          background-color: #0b1117 !important; 
-          color: #f4f4f5 !important; 
+          background-color: #0f1814 !important; 
+          color: #f4f5f4 !important; 
           font-family: monospace; 
           font-size: 11px; 
           padding: 4px;
           border-radius: 4px;
         ">
-          <strong style="color: ${isVerra ? "#818cf8" : "#fbbf24"}; font-size: 12px;">
+          <strong style="color: ${isVerra ? "#10b981" : "#eaff00"}; font-size: 12px;">
             [${project.id}]
           </strong><br/>
           <div style="font-size: 13px; font-weight: bold; margin-top: 4px; margin-bottom: 4px; color: #ffffff !important;">

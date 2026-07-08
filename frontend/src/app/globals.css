@@ -2,11 +2,13 @@
 @import "tailwindcss";
 
 :root {
-  /* Enforce Real Rails Master Manifesto structural background parameters */
-  --background: #030712; /* Obsidian Black */
-  --foreground: #f4f4f5; /* Light zinc text */
-  --card: #0B1117;       /* Deep Navy Grey */
-  --border: #1F2937;     /* Slate-800 */
+  /* Enforce Cinematic Rail Energy Rail DNA parameters */
+  --background: #080c0a; /* Dark carbon-grey with a forest-green tint (< 10% luminance) */
+  --foreground: #f4f5f4; /* High-contrast off-white */
+  --card: #0f1814;       /* Deep emerald-tinted charcoal */
+  --border: #1c2c22;     /* Forest-green slate border */
+  --accent: #10b981;     /* Emerald Accent */
+  --accent-neon: #05ffb0;/* Neon Mint Accent */
 }
 
 @theme inline {
@@ -14,11 +16,13 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-neon: var(--accent-neon);
 }
 
 body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-  background-color: #030712;
+  background-color: #080c0a;
 }
 
 /* Ensure our full-viewport canvas renders perfectly over layout bounds */
@@ -33,12 +37,12 @@ body {
 }
 
 .maplibregl-popup-content {
-  background: #0b1117 !important; /* Forces the entire box frame dark */
-  background-color: #0b1117 !important; 
-  border: 1px solid #1f2937 !important; 
+  background: #0f1814 !important; /* Forces the entire box frame dark */
+  background-color: #0f1814 !important; 
+  border: 1px solid #1c2c22 !important; 
   border-radius: 6px !important;
   padding: 12px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(56, 189, 248, 0.1) !important; 
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(16, 185, 129, 0.1) !important; 
 }
 
 /* Turns the little white close "x" button text silver/white */
